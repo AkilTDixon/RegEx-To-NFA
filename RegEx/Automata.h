@@ -42,6 +42,7 @@ struct State
 	bool finalState;
 	bool initialState;
 	bool loopStart;
+	bool loopEnd;
 
 
 	vector<Transition> transitions;

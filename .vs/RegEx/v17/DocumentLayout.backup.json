@@ -22,8 +22,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
+              "RelativeDocumentMoniker": "RegEx\\main.cpp",
+              "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
+              "RelativeToolTip": "RegEx\\main.cpp",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAADoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-04T00:18:26.607Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -32,9 +46,10 @@
               "RelativeDocumentMoniker": "RegEx\\Automata.h",
               "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.h",
               "RelativeToolTip": "RegEx\\Automata.h",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAuwE4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-04T00:09:08.896Z"
+              "WhenOpened": "2025-09-04T18:46:43.612Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -44,22 +59,9 @@
               "RelativeDocumentMoniker": "RegEx\\Automata.cpp",
               "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.cpp",
               "RelativeToolTip": "RegEx\\Automata.cpp",
-              "ViewState": "AgIAAJsAAAAAAAAAAAAAAKUAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAP4CAAAAAAAAAAAcwAwDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-03T20:55:52.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
-              "RelativeDocumentMoniker": "RegEx\\main.cpp",
-              "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
-              "RelativeToolTip": "RegEx\\main.cpp",
-              "ViewState": "AgIAACgAAAAAAAAAAAAswDsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-03T20:55:51.469Z",
+              "WhenOpened": "2025-09-04T00:18:23.289Z",
               "EditorCaption": ""
             }
           ]

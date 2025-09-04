@@ -1,1 +1,68 @@
-﻿
+﻿  Automata.cpp
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(176,56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(310,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(324,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(357,18): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(420,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(421,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(558,39): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(569,6): warning C4101: 'upperLimit': unreferenced local variable
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(719,18): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(783,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(922,9): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(965,13): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(976,21): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(989,13): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(1077,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(851,14): warning C4101: 'check2': unreferenced local variable
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(851,6): warning C4101: 'check1': unreferenced local variable
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         with
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         [
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:             _Ty=__int64
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         and
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         [
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:             _Ty2=int
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4244:         ]
+  (compiling source file 'Automata.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54):
+      the template instantiation context (the oldest one first) is
+          I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(700,32):
+          see reference to function template instantiation 'std::pair<int,int>::pair<int&,__int64,0>(_Other1,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int &,
+              _Other2=__int64
+          ]
+              I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(700,30):
+              see the first reference to 'std::pair<int,int>::pair' in 'Automata::convertToDFA'
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4267: 'initializing': conversion from 'size_t' to '_Ty2', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4267:         with
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4267:         [
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4267:             _Ty2=int
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54): warning C4267:         ]
+  (compiling source file 'Automata.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,54):
+      the template instantiation context (the oldest one first) is
+          I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(707,32):
+          see reference to function template instantiation 'std::pair<int,int>::pair<int&,unsigned __int64,0>(_Other1,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int &,
+              _Other2=unsigned __int64
+          ]
+              I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(707,29):
+              see the first reference to 'std::pair<int,int>::pair' in 'Automata::convertToDFA'
+  
+  main.cpp
+  Generating code
+  53 of 1262 functions ( 4.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    6 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RegEx.vcxproj -> I:\Projects\RegEx-To-NFA\x64\Release\RegEx.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
