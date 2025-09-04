@@ -66,7 +66,7 @@ Automata::Automata(string regEx)
 	//alphabet.insert('~');
 	
 
-	createNFA2(regEx);
+	createNFA(regEx);
 
 	
 }
@@ -164,7 +164,7 @@ void Automata::reset(string regEx)
 
 
 	int depth = 0;
-	createNFA(regEx, regEx[depth], depth, regEx.length(), states[0], false, false, false);
+	createNFA(regEx);
 
 }
 
