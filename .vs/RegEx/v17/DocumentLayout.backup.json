@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "I:\\Projects\\RegEx-To-NFA\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|solutionrelative:RegEx\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|solutionrelative:RegEx\\Automata.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Automata.cpp",
+              "DocumentMoniker": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.cpp",
+              "RelativeDocumentMoniker": "RegEx\\Automata.cpp",
+              "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.cpp",
+              "RelativeToolTip": "RegEx\\Automata.cpp",
+              "ViewState": "AgIAAJMBAAAAAAAAAAAcwKEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-03T20:55:52.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
+              "RelativeDocumentMoniker": "RegEx\\main.cpp",
+              "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
+              "RelativeToolTip": "RegEx\\main.cpp",
+              "ViewState": "AgIAACIAAAAAAAAAAAAcwCkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-03T20:55:51.469Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

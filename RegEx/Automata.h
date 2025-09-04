@@ -76,11 +76,11 @@ private:
 	stack<State*> nestedRoot;
 	stack<State*> starClosures;
 	unordered_set<char> alphabet;
+
 	void recursiveCheck(set<pair<int, int>>& statePairs, bool* grid);
-	void createNFA(string regEx, char currCharacter, int depth, int stringLength, State* currentState, bool nested, bool star, bool endOfString);
-	void createNFA2(string regex);
+	void createNFA(string regex);
 	bool testInput(string s, char currCharacter, int depth, int stringLength, State* currentState);
-	void traverseAndSetNext(State* current, State* next, char theChar, bool star);
+	
 };
 
 

@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Practice\RegEx\x64\Debug\RegEx.exe</FullPath>
+      <FullPath>I:\Projects\RegEx-To-NFA\x64\Debug\RegEx.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

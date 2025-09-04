@@ -181,24 +181,7 @@ void Automata::input(string s)
 //simple. needs work for complex Automata transitions
 void Automata::print()
 {
-	bool fn = false;
-	for (int i = 0; i < states.size(); i++)
-	{
-		fn = states[i]->finalState;
-		if (fn)
-			cout << "|";
-
-		cout << "|q" << states[i]->id << "|";
-
-		if (fn)
-			cout << "|";
-
-		for (int j = 0; j < states[i]->transitions.size(); j++)
-		{	
-			cout << " --- " << states[i]->transitions[j].acceptedChar << " ---> ";
-		}
-	}
-	cout << endl << endl;
+	
 }
 
 bool Automata::testInput(string s, char currCharacter, int depth, int stringLength, State* currentState)
@@ -271,7 +254,7 @@ bool traceLambda(State* current)
 	}
 	return ret;
 }
-void Automata::createNFA2(string regex)
+void Automata::createNFA(string regex)
 {
 
 	char currCharacter;
@@ -279,14 +262,15 @@ void Automata::createNFA2(string regex)
 	bool bracket = false;
 	bool bracketEnd = false;
 	bool star = false;
+	bool branchingBracket = false;
 	stack<int> bracketCount;
-	int rootMachine = 0;
+	int rootMachine = -1;
 	vector<State*> mini;
+
 	//trying to follow a more algorithmic approach
 	for (int i = 0; i < regex.length(); i++)
 	{
-		//if (State::stateCounter == 11)
-			//cout << "it's time";
+		
 		currCharacter = regex[i];
 		//making mini NFAs for each literal
 		if (currCharacter != '(' && currCharacter != '*' && currCharacter != '+' && currCharacter != ')')
@@ -297,36 +281,26 @@ void Automata::createNFA2(string regex)
 		{
 			if (currCharacter != '*' && currCharacter != '+')
 			{
+				State* newS = new State();
+				State* next = new State();
+				next->finalState = true;
+				Transition t(currCharacter, next);
+				newS->transitions.push_back(t);
 				if (miniMachines.empty() && mini.empty())
 				{
-
-
-					State* newS = new State();
-					State* next = new State();
 					newS->initialState = true;
-					next->finalState = true;
-					
-					Transition t(currCharacter, next);
-
-					newS->transitions.push_back(t);
-
-
-					mini.push_back(newS);
-					mini.push_back(next);
 				}
 				else
 				{
-					State* newS = new State();
-					State* next = new State();
-					next->finalState = true;
-					Transition t(currCharacter, next);
-
-					newS->transitions.push_back(t);
-
 					if (branching)
 					{
 						Transition e('~', newS);
-						if (!bracketCount.empty())
+						if (branchingBracket)
+						{
+							miniMachines[rootMachine][0]->transitions.push_back(e);
+							branchingBracket = false;
+						}
+						else if (!bracketCount.empty())
 						{
 							int index = bracketCount.top();
 							//the initial state of the root machine needs an epsilon transition to this machine
@@ -337,9 +311,17 @@ void Automata::createNFA2(string regex)
 						}
 						else
 						{
-							//the previous minimachine's initial state needs to have an epsilon transition to this new machine
-							int index = miniMachines.size() - 1;
-							miniMachines[index][0]->transitions.push_back(e);
+							if (rootMachine != -1)
+							{
+								miniMachines[rootMachine][0]->transitions.push_back(e);
+								rootMachine = -1;			
+							}
+							else
+							{
+								//the previous minimachine's initial state needs to have an epsilon transition to this new machine
+								int index = miniMachines.size() - 1;
+								miniMachines[index][0]->transitions.push_back(e);
+							}
 						}
 						branching = false;
 					}
@@ -384,13 +366,12 @@ void Automata::createNFA2(string regex)
 						}
 					}
 						
-					//}
-					//connect the previous machine's final state with the current state
+					
+					
 
-
-					mini.push_back(newS);
-					mini.push_back(next);
 				}
+				mini.push_back(newS);
+				mini.push_back(next);
 					
 			}
 			else if (currCharacter == '*')
@@ -435,6 +416,7 @@ void Automata::createNFA2(string regex)
 			{
 				//then the previously saved minimachine's initial state must branch into this next machine
 				branching = true;
+				bracketEnd = false;
 				
 			}
 		}
@@ -449,6 +431,19 @@ void Automata::createNFA2(string regex)
 			//brackets. whatever is inside the brackets will be its own machine
 			//for now its just basically concatenation
 			bracket = true;
+			
+			if (branching)
+			{
+				branchingBracket = true;
+				//not in a bracket
+				if (!bracketCount.empty())
+					rootMachine = bracketCount.top();
+				else
+					rootMachine = 0;
+
+			}
+			
+
 			bracketCount.push(miniMachines.size());
 			//the first machine inside the bracket will be the next created one
 			
@@ -484,267 +479,10 @@ void Automata::createNFA2(string regex)
 
 
 }
-void Automata::createNFA(string regEx, char currCharacter, int depth, int stringLength, State* current, bool nested, bool star, bool endOfString)
-{
-
-	/*
-	Temporary way of assigning final states
-	*/
-	if (stringLength == 0)
-	{
-		
-		if (!nested || (nested && endOfString))
-			current->finalState = true;
-		return;
-	}
-	if (depth >= stringLength)
-	{	
-		
-		if (!nested || (nested && endOfString))
-		{
-			current->finalState = true;
-		}
-		
-
-
-		if ((nested && star))
-		{
-			
-			Transition t('~', starClosures.top());
-			current->transitions.push_back(t);
-			
-		}
-
-		return;
-	}
-
-
-	bool append = false;
-	State* next;
-	if (currCharacter != '(' && currCharacter != '*' && currCharacter != '+')
-		if (!alphabet.contains(currCharacter))
-			alphabet.insert(currCharacter);
-
-	/*
-	BRACKETS
-	*/
-	if (currCharacter == '(')
-	{
-		stack<char> countBrackets;
-		countBrackets.push('(');
-		string temp = "";
-		int startDepth = 0;
-		depth++;
-		char reader = regEx[depth];
-
-		while (!countBrackets.empty())
-		{
-			if (reader == '(')
-				countBrackets.push('(');
-			else if (reader == ')')
-			{
-				countBrackets.pop();
-				if (countBrackets.empty())
-					break;
-			}
-			temp += reader;
-			depth++;
-			reader = regEx[depth];
-		}
-
-
-		depth++;
-
-		bool eos = depth >= stringLength;
-		bool sr = false;
-
-		//not the end of the string, is there a star closure on this bracket?
-		if (!eos)
-		{
-			sr = regEx[depth] == '*';
-			if (sr)
-				depth++;
-		}
 
 
 
-		/*
-		Deal with OR
-		*/
-		vector<string> subStrings;
 
-		string sub = "";
-		for (int i = 0; i < temp.length(); i++)
-		{
-			switch (temp[i])
-			{
-			case '+':
-				if (countBrackets.empty()) {
-
-					subStrings.push_back(sub);
-					sub = "";
-				}
-				else
-					sub += temp[i];
-				break;
-			case '(':
-				countBrackets.push('(');
-				sub += temp[i];
-				break;
-			case ')':
-				countBrackets.pop();
-				sub += temp[i];
-				break;
-			default:
-				sub += temp[i];
-				break;
-			}
-		}
-
-		subStrings.push_back(sub);
-		
-
-		nestedRoot.push(current);
-		if (sr)
-			starClosures.push(current);
-		
-		for (int i = 0; i < subStrings.size(); i++)
-		{
-			State* newS = new State();
-			newS->loopStart = sr;
-			
-			Transition t('~', newS);
-			current->transitions.push_back(t);
-			states.push_back(newS);
-
-			createNFA(subStrings[i], subStrings[i][0], 0, subStrings[i].length(), newS, true, sr, eos);
-
-		}
-		if (sr)
-			starClosures.pop();
-		nestedRoot.pop();
-
-		if (depth >= stringLength)
-		{
-			if (sr)
-				current->finalState = true;
-			if (star)
-			{
-				State* newS = new State();
-				states.push_back(newS);
-
-				traverseAndSetNext(current, newS, '~', false);
-				Transition t('~', starClosures.top());
-				newS->transitions.push_back(t);
-				
-				
-			}
-
-			return;
-		}
-		else
-		{
-			
-			if (!sr)
-			{
-				State* newS = new State();
-				states.push_back(newS);
-
-				traverseAndSetNext(current, newS, '~', false);
-
-
-				next = newS;
-			}
-			else
-				next = current;
-
-			
-			createNFA(regEx, regEx[depth], depth, stringLength, next, nested, star, endOfString);
-		}
-
-		//---------------------------------------------------------------------------------------
-	}
-	else {
-		/*
-		Star closure
-		*/
-		if (depth + 1 < stringLength)
-		{
-			if (regEx[depth + 1] == '*')
-			{
-				if (nested && !star && depth == 0)
-				{
-					State* temp = new State();
-
-					Transition toNext(currCharacter, temp);
-					current->transitions.push_back(toNext);
-					current = temp;
-					nestedRoot.top()->finalState = true;
-
-
-				}
-				else if (nested && star && depth + 2 >= stringLength)
-				{
-					//add a lambda transition back to root
-
-					Transition toRoot('~', nestedRoot.top());
-					current->transitions.push_back(toRoot);
-					current->finalState = true;
-				}
-				next = current;
-				depth++;
-			}
-			else
-				next = new State();
-		}
-		else
-			next = new State();
-
-		//deal with star closure after
-
-		Transition toNext(currCharacter, next);
-		current->transitions.push_back(toNext);
-
-		//careful here. could be possible to have transitions to other existing states? depends on how i implement
-		if (next != current)
-			states.push_back(next);
-
-		createNFA(regEx, regEx[depth + 1], depth + 1, stringLength, next, nested, star, endOfString);
-	}
-}
-
-
-
-void Automata::traverseAndSetNext(State* current, State* next, char theChar, bool star)
-{
-	
-	if (current->transitions.size() == 0 || star || current->finalState)
-	{
-		if (current->finalState)
-			current->finalState = false;
-
-		//avoid putting a lambda transition on itself
-		if (theChar != '~' || next != current)
-		{ 
-			Transition t(theChar, next);
-			current->transitions.push_back(t);
-		}
-		
-		return;
-	}
-
-
-	for (int i = 0; i < current->transitions.size(); i++)
-	{
-		if (current->transitions[i].nextState->loopStart || !nestedRoot.empty() && current->transitions[i].nextState == nestedRoot.top())
-			continue;
-
-		if (current->transitions[i].nextState != current)
-			traverseAndSetNext(current->transitions[i].nextState, next, theChar, star);
-	}
-
-	return;
-}
 void Automata::convertToDFA()
 {
 	vector<set<State*>> p;

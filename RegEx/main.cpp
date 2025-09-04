@@ -6,7 +6,7 @@ using namespace std;
 /*
 TODO
 
-NFA creation needs to be rewritten
+NFA creation is rewritten, works in all current cases
 converting to DFA is DONE
 Minimize DFA is DONE
 
@@ -26,9 +26,16 @@ a(a+c(dc)*b) --WORKS
 
 a(a+(cb)*c)d --WORKS
 
-^ when a literal is concatenated outside a bracket with an OR that has a star closure, and ends with a literal
+(0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*) --WORKS
 
-((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*)) --WORKS
+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*) --WORKS
+
+
+((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*)) -- WORKS
+
+
+
+
 
 */
 
@@ -38,8 +45,8 @@ int main()
 					//"111100","1000001","1000110","1001011","1010000","1010101","1011010","1011111"};
 
 	
-	
-	Automata d("0+1");
+
+	Automata d("((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*))");
 
 	//d.input("acb");
 
