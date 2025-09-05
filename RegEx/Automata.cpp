@@ -201,7 +201,6 @@ void Automata::print()
 	file << "  <Links>\n";
 	for (auto s : states)
 	{
-		
 		for (auto l : s->transitions)
 		{
 			string toSfromC(1, l.acceptedChar);
@@ -277,9 +276,7 @@ bool traceLambda(State* current)
 		return true;
 
 	if (current->transitions.size() == 0)
-	{
 		return current->finalState;
-	}
 	else if (current->transitions.size() > 0)
 	{
 		for (int i = 0; i < current->transitions.size(); i++)
@@ -312,7 +309,6 @@ void Automata::createNFA(string regex)
 	//trying to follow a more algorithmic approach
 	for (int i = 0; i < regex.length(); i++)
 	{
-		
 		currCharacter = regex[i];
 		//making mini NFAs for each literal
 		if (currCharacter != '(' && currCharacter != '*' && currCharacter != '+' && currCharacter != ')')
@@ -329,9 +325,7 @@ void Automata::createNFA(string regex)
 				Transition t(currCharacter, next);
 				newS->transitions.push_back(t);
 				if (miniMachines.empty() && mini.empty())
-				{
 					newS->initialState = true;
-				}
 				else
 				{
 					if (branching)
@@ -406,11 +400,7 @@ void Automata::createNFA(string regex)
 
 							}
 						}
-					}
-						
-					
-					
-
+					}				
 				}
 				mini.push_back(newS);
 				mini.push_back(next);
@@ -435,7 +425,6 @@ void Automata::createNFA(string regex)
 				if (rootMachine != -1)
 				{
 					startAtMachine = rootMachine;
-					
 					
 					//the star closed machines should have their final states epsilon transition to the intermediary
 					for (int k = startAtMachine; k < miniMachines.size(); k++)
@@ -465,13 +454,7 @@ void Automata::createNFA(string regex)
 					if (miniMachines[startAtMachine][innerIndex]->finalState)
 						miniMachines[startAtMachine][innerIndex]->finalState = false;
 					
-					
 				}
-
-
-
-
-
 
 				auto oldInitial = miniMachines[startAtMachine][0];
 				//the intermediary should epsilon transition to the newInitial
@@ -487,8 +470,7 @@ void Automata::createNFA(string regex)
 					newInitial->initialState = true;
 				}
 				
-				
-
+			
 				
 				/*
 				Anything that was transitioning to the old initial state needs to transition to the new one
@@ -503,7 +485,6 @@ void Automata::createNFA(string regex)
 								break;
 							if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
 								miniMachines[m][x]->transitions[y].nextState = newInitial;
-
 						}
 					}
 				}
@@ -557,7 +538,6 @@ void Automata::createNFA(string regex)
 								break;
 							if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
 								miniMachines[m][x]->transitions[y].nextState = newS;
-
 						}
 					}
 				}
@@ -667,11 +647,8 @@ void Automata::convertToDFA()
 		for (auto k = alphabet.begin(); k != alphabet.end(); k++)
 		{
 			for (auto i = p[l].begin(); i != p[l].end(); i++)
-			{
-
 				characterTransitions(*k, *i, groupedState, 0, true, 1, pathTaken);
-
-			}
+			
 			for (auto i = groupedState.begin(); i != groupedState.end(); i++)
 			{
 				/*
@@ -710,11 +687,8 @@ void Automata::convertToDFA()
 		for (auto k = alphabet.begin(); k != alphabet.end(); k++)
 		{
 			for (auto l = p[i].begin(); l != p[i].end(); l++)
-			{
-				
 				characterTransitions(*k, *l, groupedState, 0, true, 1, pathTaken);
-
-			}
+			
 			for (auto l = groupedState.begin(); l != groupedState.end(); l++)
 			{
 				/*
@@ -725,10 +699,7 @@ void Automata::convertToDFA()
 			if (!groupedState.empty())
 			{
 				if (auto it = find(p.begin(), p.end(), groupedState); it != p.end())
-				{
-					
 					allTransitions.push_back({{i, distance(p.begin(), it)}, *k});
-				}
 			}
 			else
 			{
@@ -753,7 +724,6 @@ void Automata::convertToDFA()
 	for (int i = 0; i < numOfStates; i++)
 	{
 		auto currentSet = p[i];
-
 		for (auto k = currentSet.begin(); k != currentSet.end(); k++)
 		{
 			if ((*k)->finalState)
@@ -811,14 +781,7 @@ void Automata::convertToDFA()
 		states[i]->id = i;
 	
 	State::stateCounter = states.size()-1;
-
-
-
-
-
-
 	DFA = true;
-
 	delete[] fnStates;
 }
 void Automata::minimizeDFA()
@@ -899,7 +862,6 @@ void Automata::minimizeDFA()
 	set<int> stateIndicesAffected;
 	for (auto k = statePairs.begin(); k != statePairs.end(); k++)
 	{
-		
 		if (grid[distance(statePairs.begin(), k)])
 		{
 			id1 = (*k).first;
@@ -911,7 +873,6 @@ void Automata::minimizeDFA()
 				stateIndicesAffected.insert(id1);
 				stateIndicesAffected.insert(id2);
 			}
-
 		}
 		else
 			continue;
@@ -927,7 +888,6 @@ void Automata::minimizeDFA()
 					theSet.insert(id2);
 					stateIndicesAffected.insert(id1);
 					stateIndicesAffected.insert(id2);
-
 				}
 
 			}
