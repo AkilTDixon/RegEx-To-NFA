@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="0" Category="Final" Bounds="0,115.42,50,25.96" Label="0" />
+    <Node Id="1" Category="None" Bounds="98.8266666666666,174.42,50,25.96" Label="1" />
+    <Node Id="2" Category="None" Bounds="197.653333333333,115.42,50,25.96" Label="2" />
+    <Node Id="3" Category="None" Bounds="0,0,50,25.96" Label="3" />
+  </Nodes>
+  <Links>
+    <Link Source="0" Target="1" Bounds="41.4457702636719,141.380004882813,49.1434020996094,32.2839965820313" Label="0, 1" LabelBounds="65,167.4,18.8266666666666,15.96" />
+    <Link Source="1" Target="2" Bounds="148.823501586914,146.955871582031,50.3193817138672,30.3263549804688" Label="0, 1" LabelBounds="163.826666666667,167.4,18.8266666666666,15.96" />
+    <Link Source="2" Target="0" Bounds="59,128.399993896484,138.653335571289,0" Label="0, 1" LabelBounds="114.413333333333,128.4,18.8266666666666,15.96" />
+    <Link Source="3" Target="3" Bounds="12.5,25.9599990844727,25,43.5" Label="0, 1" LabelBounds="15.5866666666666,69.46,18.8266666666667,15.96" />
+  </Links>
+  <Categories>
+    <Category Id="Final" Background="#FF90EE90" />
+    <Category Id="None" Background="#FFFFFFFF" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Background" Description="The background color" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+  </Properties>
+</DirectedGraph>

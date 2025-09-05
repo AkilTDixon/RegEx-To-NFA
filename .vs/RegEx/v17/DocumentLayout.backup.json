@@ -13,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{99C2C3B5-2BE8-4613-85BC-8F5827E32D34}|RegEx\\RegEx.vcxproj|solutionrelative:RegEx\\Automata.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|I:\\Projects\\RegEx-To-NFA\\RegEx\\visualize.dgml||{295A0962-5A59-4F4F-9E12-6BC670C15C3B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RegEx\\visualize.dgml||{295A0962-5A59-4F4F-9E12-6BC670C15C3B}"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,11 +36,23 @@
               "RelativeDocumentMoniker": "RegEx\\main.cpp",
               "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\main.cpp",
               "RelativeToolTip": "RegEx\\main.cpp",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAADoAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-04T00:18:26.607Z",
               "IsPinned": true,
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "visualize.dgml [Viewer]",
+              "DocumentMoniker": "I:\\Projects\\RegEx-To-NFA\\RegEx\\visualize.dgml",
+              "RelativeDocumentMoniker": "RegEx\\visualize.dgml",
+              "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\visualize.dgml [Viewer]*",
+              "RelativeToolTip": "RegEx\\visualize.dgml [Viewer]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000968|",
+              "WhenOpened": "2025-09-05T18:13:10.702Z",
+              "EditorCaption": " [Viewer]"
             },
             {
               "$type": "Document",
@@ -46,7 +62,7 @@
               "RelativeDocumentMoniker": "RegEx\\Automata.h",
               "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.h",
               "RelativeToolTip": "RegEx\\Automata.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAACwAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-09-04T18:46:43.612Z",
               "EditorCaption": ""
@@ -59,7 +75,7 @@
               "RelativeDocumentMoniker": "RegEx\\Automata.cpp",
               "ToolTip": "I:\\Projects\\RegEx-To-NFA\\RegEx\\Automata.cpp",
               "RelativeToolTip": "RegEx\\Automata.cpp",
-              "ViewState": "AgIAAP4CAAAAAAAAAAAcwAwDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMgAAAAAAAAAAAAAAL4AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-04T00:18:23.289Z",
               "EditorCaption": ""

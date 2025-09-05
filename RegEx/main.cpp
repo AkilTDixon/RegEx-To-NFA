@@ -64,17 +64,18 @@ int main()
 	To fix it, when doing an OR, create a new state. This state will epsilon transition to the rootMachine of the first half,
 	and epsilon transition to the next half, becoming the new branching initial state
 	*/
-	Automata d("((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*))");
-
+	Automata d("((0+1)(0+1)(0+1))*");
+	
 	//d.input("acb");
 
 	d.convertToDFA();
 	//d.input("acb");
-
+	
 	
 	
 	//Automata d('f', true);
 	d.minimizeDFA();
+	d.print();
 	
 	return 0;
 }

@@ -4,6 +4,8 @@
 #include <unordered_set>
 #include <utility>
 #include <stack>
+#include <fstream>
+#include <map>
 using namespace std;
 
 
@@ -180,10 +182,48 @@ void Automata::input(string s)
 		cout << "Rejected" << endl;
 }
 
-//simple. needs work for complex Automata transitions
+
 void Automata::print()
 {
+	ofstream file("visualize.dgml");
+	string category;
+	string label = "";
+	map<int, string> transitionOn;
 	
+	file << "<DirectedGraph xmlns=\"http://schemas.microsoft.com/vs/2009/dgml\">\n";
+	file << "  <Nodes>\n";
+	for (auto s : states)
+	{
+		category = s->finalState ? "Final" : "None";
+		file << "    <Node Id=\"" << s->id << "\" Label =\"" << s->id << "\" Category=\"" << category << "\" />\n";
+	}
+	file << "  </Nodes>\n";
+	file << "  <Links>\n";
+	for (auto s : states)
+	{
+		
+		for (auto l : s->transitions)
+		{
+			string toSfromC(1, l.acceptedChar);
+
+			if (!transitionOn.contains(l.nextState->id))
+				transitionOn[l.nextState->id] = toSfromC;
+			else if (transitionOn[l.nextState->id] != toSfromC)
+				transitionOn[l.nextState->id] += ", " + toSfromC;
+
+			label = transitionOn[l.nextState->id];
+			file << "    <Link Source=\"" << s->id << "\" Target =\"" << l.nextState->id << "\" Label =\"" << label << "\" />\n";
+			
+		}
+		transitionOn.clear();
+	}
+	file << "  </Links>\n";
+	file << "  <Categories>\n";
+	file << "    <Category Id=\"Final\" Background =\"LightGreen\" />\n";
+	file << "    <Category Id=\"None\" Background =\"White\" />\n";
+	file << "  </Categories>\n";
+	file << "</DirectedGraph>\n";
+
 }
 
 bool Automata::testInput(string s, char currCharacter, int depth, int stringLength, State* currentState)
@@ -567,17 +607,7 @@ void Automata::createNFA(string regex)
 	}
 
 	int upperLimit;
-	//put the machines together using epsilon transitions
-	//for (int i = 0; i < miniMachines.size()-1; i++)
-	//{
-	//	upperLimit = miniMachines[i].size() - 1;
 
-	//	Transition e('~', miniMachines[i + 1][0]);
-	//	miniMachines[i][upperLimit]->transitions.push_back(e);
-	//	
-
-	//	
-	//}
 	for (int i = 0; i < miniMachines.size(); i++)
 	{
 		for (int j = 0; j < miniMachines[i].size(); j++)
@@ -1111,7 +1141,7 @@ void Automata::recursiveCheck(set<pair<int, int>>& statePairs, bool* grid)
 				{
 					//so mark the current pair
 					grid[distance(statePairs.begin(), i)] = false;
-					//because we found a new thing to mark, we need to run this entire for loop chain over again
+					//because we found a new thing to mark, we need to run this entire loop chain over again
 					markedSomething = true;
 				}
 
