@@ -10,5 +10,6 @@ Next is separating the functions to create NFAs, convert to DFA, and minimize DF
 
 
 Uses Graphviz for image output
+
 Uses wxWidgets for the GUI
 
