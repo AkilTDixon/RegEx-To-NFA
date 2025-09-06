@@ -1,6 +1,6 @@
 This is a work in progress
 
-Currently functions for all complex test cases. Currently has a minimal GUI that takes a user inputted regex string, and outputs a PNG image to the window
+Currently functions for all complex test cases. Currently has a minimal GUI that takes a user inputted regex string, and outputs a PNG image of the end result minimized DFA to the window
 
 
 <img width="802" height="632" alt="image" src="https://github.com/user-attachments/assets/f36902d1-d2a7-42a3-bea6-db660049b4c5" />
