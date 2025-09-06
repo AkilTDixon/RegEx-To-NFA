@@ -1,4 +1,5 @@
-#include "Automata.h";
+#define GVDLL
+#include "Automata.h"
 #include <iostream>
 #include <set>
 #include <unordered_set>
@@ -6,6 +7,9 @@
 #include <stack>
 #include <fstream>
 #include <map>
+#include <graphviz/cgraph.h>
+#include <graphviz/gvc.h>
+#include <cstdio>
 using namespace std;
 
 
@@ -185,7 +189,64 @@ void Automata::input(string s)
 
 void Automata::print()
 {
-	ofstream file("visualize.dgml");
+	map<int, string> transitionOn;
+	map<int, Agedge_t*> idToEdge;
+	vector<Agnode_t*> allNodes;
+	vector<Agedge_t*> allEdges;
+	string label;
+	GVC_t* gvc = gvContext();
+
+	//directed graph
+	Agraph_t* g = agopen((char*)"G", Agdirected, 0);
+
+	//Nodes
+	for (auto s : states){
+		
+		Agnode_t* n = agnode(g, (char*)(to_string(s->id)).c_str(), 1);
+		
+		if (s->finalState)
+		{
+			agsafeset(n, (char*)"style", (char*)"filled", (char*)"");
+			agsafeset(n, (char*)"fillcolor", (char*)"green", (char*)"");
+		}
+		allNodes.push_back(n);
+	}
+
+	//Edges
+	for (int i = 0; i < states.size(); i++){
+		for (auto t : states[i]->transitions)
+		{
+			string toSfromC(1, t.acceptedChar);
+			if (!transitionOn.contains(t.nextState->id))
+				transitionOn[t.nextState->id] = toSfromC;
+			else if (transitionOn[t.nextState->id] != toSfromC)
+			{	
+				transitionOn[t.nextState->id] += ", " + toSfromC;
+				agdelete(g, idToEdge[t.nextState->id]);
+				
+			}
+			label = transitionOn[t.nextState->id];
+
+
+			
+			Agedge_t* e = agedge(g, allNodes[i], allNodes[t.nextState->id],0, 1);
+			idToEdge[t.nextState->id] = e;
+			//agsafeset(e, (char*)"label", (char*)(toSfromC).c_str(), (char*)"");
+			agsafeset(e, (char*)"label", (char*)(char*)(label).c_str(), (char*)"");
+			agsafeset(e, (char*)"labeldistance", (char*)"500.0", (char*)"");
+			agsafeset(e, (char*)"labelangle", (char*)"30", (char*)"");
+		}
+		transitionOn.clear();
+	}
+	gvLayout(gvc, g, "dot");
+	gvRenderFilename(gvc, g, "png", "output.png");
+
+	gvFreeLayout(gvc, g);
+	agclose(g);
+	gvFreeContext(gvc);
+
+	
+	/*ofstream file("visualize.dgml");
 	string category;
 	string label = "";
 	map<int, string> transitionOn;
@@ -221,7 +282,7 @@ void Automata::print()
 	file << "    <Category Id=\"Final\" Background =\"LightGreen\" />\n";
 	file << "    <Category Id=\"None\" Background =\"White\" />\n";
 	file << "  </Categories>\n";
-	file << "</DirectedGraph>\n";
+	file << "</DirectedGraph>\n";*/
 
 }
 
@@ -1140,11 +1201,11 @@ void characterTransitions(char theChar, State* current, set<State*>& groupedStat
 		if (current->transitions[i].acceptedChar == theChar)
 		{		
 			if (pathTaken.contains({ current->id, i }))
-				return;
+			return;
 
-			groupedState.insert(current->transitions[i].nextState);
-			pathTaken.insert({ current->id, i });
-			characterTransitions(theChar, current->transitions[i].nextState, groupedState, depth+1, useSteps, steps, pathTaken);
+		groupedState.insert(current->transitions[i].nextState);
+		pathTaken.insert({ current->id, i });
+		characterTransitions(theChar, current->transitions[i].nextState, groupedState, depth+1, useSteps, steps, pathTaken);
 		}
 	}
 
