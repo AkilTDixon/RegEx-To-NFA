@@ -8,3 +8,7 @@ Currently functions for all complex test cases. Currently has a minimal GUI that
 
 Next is separating the functions to create NFAs, convert to DFA, and minimize DFAs into buttons, and display them depending on context of the automata.
 
+
+Uses Graphviz for image output
+Uses wxWidgets for the GUI
+
