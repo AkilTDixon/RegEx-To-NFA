@@ -10,6 +10,10 @@ Special characters for the RegEx:
 
 '(' and ')' - Brackets interact with the previous special characters by specifying that everything within the brackets is either closed under star, or is marked as a branch for an OR
 
+State 0 is always the Initial State
+
+A green state indicates a Final State
+
 https://github.com/user-attachments/assets/5bfe2ad3-c09f-48ea-ab2a-3b6ed5e05edd
 
 
