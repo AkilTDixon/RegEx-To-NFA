@@ -1,6 +1,6 @@
 Currently functions for all complex test cases
 
-This program converts a regular expression given by the user into a Non-deterministic Finite Automata, with the option to convert the resultant NFA into a DFA, and then further minimize the DFA.
+This program converts a regular expression given by the user into a Non-deterministic Finite Automata, with the option to convert the resulting NFA into a DFA, and then further minimize the DFA.
 
 Special characters for the RegEx:
 
