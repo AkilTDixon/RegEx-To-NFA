@@ -14,6 +14,8 @@ State 0 is always the Initial State
 
 A green state indicates a Final State
 
+Note: This implementation uses a Trap state for DFAs, making use of the entirety of the regex's alphabet. Similar tools sometimes omit the trap state and hide unused characters, but for completion's sake the decision was to include all paths
+
 https://github.com/user-attachments/assets/5bfe2ad3-c09f-48ea-ab2a-3b6ed5e05edd
 
 
