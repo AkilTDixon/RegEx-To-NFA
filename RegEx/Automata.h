@@ -4,8 +4,14 @@
 #include <stack>
 #include <unordered_set>
 #include <set>
+#include <wx/wx.h>
+#include <wx/image.h>
+#include <wx/bitmap.h>
+#include <wx/dcbuffer.h>
+#include "MainFrame.h"
 using namespace std;
 
+class MainFrame;
 
 struct State;
 
@@ -66,20 +72,18 @@ public:
 	vector<State*> states;
 	bool DFA;
 
-	void print();
+	void print(MainFrame* window);
 	void input(string s);
+	void createNFA(string regex);
 	void convertToDFA();
 	void minimizeDFA();
 	void reset();
 	void reset(string regEx);
 private:
 	vector<vector<State*>> miniMachines;
-	stack<State*> nestedRoot;
-	stack<State*> starClosures;
 	unordered_set<char> alphabet;
 
 	void recursiveCheck(set<pair<int, int>>& statePairs, bool* grid);
-	void createNFA(string regex);
 	bool testInput(string s, char currCharacter, int depth, int stringLength, State* currentState);
 	
 };

@@ -10,6 +10,10 @@
 #include <graphviz/cgraph.h>
 #include <graphviz/gvc.h>
 #include <cstdio>
+#include <wx/wx.h>
+#include <wx/image.h>
+#include <wx/bitmap.h>
+#include <wx/dcbuffer.h>
 using namespace std;
 
 
@@ -153,6 +157,12 @@ void Automata::reset()
 		delete s;
 
 	states.clear();
+	alphabet.clear();
+	DFA = false;
+	for (auto m : miniMachines)
+		m.clear();
+	miniMachines.clear();
+	
 
 	State::stateCounter = -1;
 
@@ -187,17 +197,18 @@ void Automata::input(string s)
 }
 
 
-void Automata::print()
+void Automata::print(MainFrame* window)
 {
 	map<int, string> transitionOn;
 	map<int, Agedge_t*> idToEdge;
 	vector<Agnode_t*> allNodes;
-	vector<Agedge_t*> allEdges;
 	string label;
 	GVC_t* gvc = gvContext();
 
 	//directed graph
 	Agraph_t* g = agopen((char*)"G", Agdirected, 0);
+	agsafeset(g, (char*)"rankdir", (char*)"LR", (char*)"");
+
 
 	//Nodes
 	for (auto s : states){
@@ -239,13 +250,28 @@ void Automata::print()
 		transitionOn.clear();
 	}
 	gvLayout(gvc, g, "dot");
+	
 	gvRenderFilename(gvc, g, "png", "output.png");
 
 	gvFreeLayout(gvc, g);
 	agclose(g);
 	gvFreeContext(gvc);
 
-	
+	wxImage image;
+	if (image.LoadFile("output.png"))
+	{
+		int maxWidth = 800, maxHeight = 450;
+		double scaleX = (double)maxWidth / image.GetWidth(), scaleY = (double)maxHeight / image.GetHeight();
+		double scale = min(scaleX, scaleY);
+		if (scale < 1.0)
+			image = image.Scale(image.GetWidth() * scale, image.GetHeight() * scale, wxIMAGE_QUALITY_HIGH);
+
+		wxBitmap bitmap(image);
+		int x = (window->GetSize().GetWidth() - bitmap.GetWidth()) / 2;
+		//int y = (windowPanel->GetSize().GetHeight() - bitmap.GetHeight()) / 2;
+		window->staticBitmap = new wxStaticBitmap(window->windowPanel, wxID_ANY, bitmap, wxPoint(x, 10));
+
+	}
 	/*ofstream file("visualize.dgml");
 	string category;
 	string label = "";
@@ -797,8 +823,11 @@ void Automata::convertToDFA()
 	}
 	masterList.clear();
 	p.clear();
-	reset();
+	for (auto s : states)
+		delete s;
 
+	states.clear();
+	State::stateCounter = -1;
 	//initial state already exists, the extra state at the end will be used for the trap state
 	//states[numOfStates] = trap state
 	

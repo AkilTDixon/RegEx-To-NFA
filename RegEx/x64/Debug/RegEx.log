@@ -1,1 +1,7 @@
-﻿
+﻿  Automata.cpp
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(676,6): warning C4101: 'upperLimit': unreferenced local variable
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(934,14): warning C4101: 'check2': unreferenced local variable
+I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(934,6): warning C4101: 'check1': unreferenced local variable
+  RegEx.vcxproj -> I:\Projects\RegEx-To-NFA\x64\Debug\RegEx.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
