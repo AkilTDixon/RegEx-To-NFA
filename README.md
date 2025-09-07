@@ -1,5 +1,14 @@
-Currently functions for all complex test cases and a minimal GUI
+Currently functions for all complex test cases and a minimal GUI.
 
+This program converts a regular expression given by the user into a Non-deterministic Finite Automata, with the option to convert the resultant NFA into a DFA, and then further minimize the DFA.
+
+Special characters for the RegEx:
+
+'+' - Denotes an OR separator
+
+'*' - Denotes Star Closure
+
+'(' and ')' - Brackets interact with the previous special characters by specifying that everything within the brackets is either closed under star, or is marked as a branch for an OR
 
 https://github.com/user-attachments/assets/5bfe2ad3-c09f-48ea-ab2a-3b6ed5e05edd
 
@@ -7,7 +16,7 @@ https://github.com/user-attachments/assets/5bfe2ad3-c09f-48ea-ab2a-3b6ed5e05edd
 
 
 
-
+This project is complete for the most part, however I may try to work on the GUI a bit more, such as trying to adjust the quality and aspect ratio of the output png.
 
 Uses Graphviz for image output
 
