@@ -51,17 +51,23 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 
 
 	windowPanel = new wxPanel(this);
-	NFAbutton = new wxButton(windowPanel, wxID_ANY, "Generate NFA", wxPoint(150,500), wxSize(100, 35));
-	DFAbutton = new wxButton(windowPanel, wxID_ANY, "Convert to DFA", wxPoint(350, 500), wxSize(100, 35));
-	minimizeButton = new wxButton(windowPanel, wxID_ANY, "Minimize DFA", wxPoint(550, 500), wxSize(100, 35));
+	NFAbutton = new wxButton(windowPanel, wxID_ANY, "Generate NFA", wxPoint(150,400), wxSize(100, 35));
+	DFAbutton = new wxButton(windowPanel, wxID_ANY, "Convert to DFA", wxPoint(150, 450), wxSize(100, 35));
+	minimizeButton = new wxButton(windowPanel, wxID_ANY, "Minimize DFA", wxPoint(150, 500), wxSize(100, 35));
+	testInputButton = new wxButton(windowPanel, wxID_ANY, "Test Input", wxPoint(350, 500), wxSize(100, 35));
 	textCtrl = new wxTextCtrl(windowPanel, wxID_ANY, "(a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*", wxPoint(300, 470), wxSize(200, -1));
 	resetButton = new wxButton(windowPanel, wxID_ANY, "Reset", wxPoint(350, 550), wxSize(100, 35));
+	inputTestCtrl = new wxStaticText(windowPanel, wxID_ANY, "", wxPoint(375, 450), wxSize(200, -1));
 
 	if (!machine)
 		resetButton->Enable(false);
 
+	
+	testInputButton->Enable(false);
 	DFAbutton->Enable(false);
 	minimizeButton->Enable(false);
+
+	testInputButton->Bind(wxEVT_BUTTON, &MainFrame::runInput, this);
 	NFAbutton->Bind(wxEVT_BUTTON, &MainFrame::generateNFA, this);
 	DFAbutton->Bind(wxEVT_BUTTON, &MainFrame::convertToDFA, this);
 	minimizeButton->Bind(wxEVT_BUTTON, &MainFrame::minimizeDFA, this);
@@ -73,13 +79,14 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 void MainFrame::generateNFA(wxCommandEvent& evt) {
 
 	NFAbutton->Enable(false);
+	
 
 	if (staticBitmap) {
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
 	}
 	string regEx = textCtrl->GetValue().ToStdString();
-
+	textCtrl->ChangeValue("");
 	if (machine) {
 		machine->reset();
 		machine->createNFA(regEx);
@@ -91,9 +98,10 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 
 	machine->print(this);
 
+	testInputButton->Enable(true);
 	DFAbutton->Enable(true);
 	resetButton->Enable(true);
-	textCtrl->Enable(false);
+	//textCtrl->Enable(false);
 	
 
 }
@@ -139,10 +147,30 @@ void MainFrame::resetMachine(wxCommandEvent& evt)
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
 	}
-
+	textCtrl->ChangeValue("");
+	inputTestCtrl->SetLabel("");
+	testInputButton->Enable(false);
 	NFAbutton->Enable(true);
 	DFAbutton->Enable(false);
 	minimizeButton->Enable(false);
 	resetButton->Enable(false);
-	textCtrl->Enable(true);
+	//textCtrl->Enable(true);
+}
+
+void MainFrame::runInput(wxCommandEvent& evt)
+{
+	string input = textCtrl->GetValue().ToStdString();
+
+	if (machine->input(input)) {
+		inputTestCtrl->SetForegroundColour(*wxBLUE);
+		inputTestCtrl->SetLabel("Accepted");
+		
+	}
+	else {
+		
+		inputTestCtrl->SetForegroundColour(*wxRED);
+		inputTestCtrl->SetLabel("Rejected");
+		
+		
+	}
 }

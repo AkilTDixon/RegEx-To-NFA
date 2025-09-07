@@ -62,7 +62,10 @@ State::State(bool fnState)
 
 Automata::Automata()
 {
-
+	reservedCharacters.insert('(');
+	reservedCharacters.insert(')');
+	reservedCharacters.insert('*');
+	reservedCharacters.insert('+');
 	DFA = false;
 	//alphabet.insert('~');
 	
@@ -72,7 +75,10 @@ Automata::Automata()
 Automata::Automata(string regEx)
 {
 	int depth = 0;
-
+	reservedCharacters.insert('(');
+	reservedCharacters.insert(')');
+	reservedCharacters.insert('*');
+	reservedCharacters.insert('+');
 
 	DFA = false;
 	//alphabet.insert('~');
@@ -84,6 +90,11 @@ Automata::Automata(string regEx)
 }
 Automata::Automata(char fff, bool testingPurposes)
 {
+	reservedCharacters.insert('(');
+	reservedCharacters.insert(')');
+	reservedCharacters.insert('*');
+	reservedCharacters.insert('+');
+
 	State* initial = new State();
 	states.push_back(initial);
 	initial->initialState = true;
@@ -186,14 +197,13 @@ void Automata::reset(string regEx)
 
 }
 
-void Automata::input(string s)
+bool Automata::input(string s)
 {
 	int depth = 0;
-	bool accepted = testInput(s, s[depth], depth, s.length(), states[0]);
-	if (accepted)
-		cout << "Accepted" << endl;
-	else
-		cout << "Rejected" << endl;
+
+	
+
+	return testInput(s, s[depth], depth, s.length(), states[0]);
 }
 
 
@@ -272,43 +282,7 @@ void Automata::print(MainFrame* window)
 		window->staticBitmap = new wxStaticBitmap(window->windowPanel, wxID_ANY, bitmap, wxPoint(x, 10));
 
 	}
-	/*ofstream file("visualize.dgml");
-	string category;
-	string label = "";
-	map<int, string> transitionOn;
-	
-	file << "<DirectedGraph xmlns=\"http://schemas.microsoft.com/vs/2009/dgml\">\n";
-	file << "  <Nodes>\n";
-	for (auto s : states)
-	{
-		category = s->finalState ? "Final" : "None";
-		file << "    <Node Id=\"" << s->id << "\" Label =\"" << s->id << "\" Category=\"" << category << "\" />\n";
-	}
-	file << "  </Nodes>\n";
-	file << "  <Links>\n";
-	for (auto s : states)
-	{
-		for (auto l : s->transitions)
-		{
-			string toSfromC(1, l.acceptedChar);
 
-			if (!transitionOn.contains(l.nextState->id))
-				transitionOn[l.nextState->id] = toSfromC;
-			else if (transitionOn[l.nextState->id] != toSfromC)
-				transitionOn[l.nextState->id] += ", " + toSfromC;
-
-			label = transitionOn[l.nextState->id];
-			file << "    <Link Source=\"" << s->id << "\" Target =\"" << l.nextState->id << "\" Label =\"" << label << "\" />\n";
-			
-		}
-		transitionOn.clear();
-	}
-	file << "  </Links>\n";
-	file << "  <Categories>\n";
-	file << "    <Category Id=\"Final\" Background =\"LightGreen\" />\n";
-	file << "    <Category Id=\"None\" Background =\"White\" />\n";
-	file << "  </Categories>\n";
-	file << "</DirectedGraph>\n";*/
 
 }
 
@@ -396,9 +370,10 @@ void Automata::createNFA(string regex)
 	//trying to follow a more algorithmic approach
 	for (int i = 0; i < regex.length(); i++)
 	{
+
 		currCharacter = regex[i];
 		//making mini NFAs for each literal
-		if (currCharacter != '(' && currCharacter != '*' && currCharacter != '+' && currCharacter != ')')
+		if (!reservedCharacters.contains(currCharacter))
 			if (!alphabet.contains(currCharacter))
 				alphabet.insert(currCharacter);
 	
@@ -673,7 +648,21 @@ void Automata::createNFA(string regex)
 
 	}
 
-	int upperLimit;
+	if (miniMachines.size() < 1)
+	{
+		//meaning it's an empty string with one or more blank spaces
+		State* newS = new State();
+		State* next = new State();
+		next->finalState = true;
+		Transition t('~', next);
+		newS->transitions.push_back(t);
+		newS->initialState = true;
+		mini.push_back(newS);
+		mini.push_back(next);
+		miniMachines.push_back(mini);
+
+		mini.clear();
+	}
 
 	for (int i = 0; i < miniMachines.size(); i++)
 	{
@@ -695,11 +684,14 @@ void Automata::createNFA(string regex)
 
 void Automata::convertToDFA()
 {
+	if (states.size() < 1)
+		return;
 	vector<set<State*>> p;
 	set<set<State*>> masterList;
 	set<State*> groupedState;
 	set<pair<int, int>> pathTaken;
 
+	
 	groupedState.insert(states[0]);
 
 	/*

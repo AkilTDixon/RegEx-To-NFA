@@ -73,7 +73,7 @@ public:
 	bool DFA;
 
 	void print(MainFrame* window);
-	void input(string s);
+	bool input(string s);
 	void createNFA(string regex);
 	void convertToDFA();
 	void minimizeDFA();
@@ -82,6 +82,7 @@ public:
 private:
 	vector<vector<State*>> miniMachines;
 	unordered_set<char> alphabet;
+	unordered_set<char> reservedCharacters;
 
 	void recursiveCheck(set<pair<int, int>>& statePairs, bool* grid);
 	bool testInput(string s, char currCharacter, int depth, int stringLength, State* currentState);

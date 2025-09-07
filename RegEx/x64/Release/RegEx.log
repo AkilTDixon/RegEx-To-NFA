@@ -1,14 +1,8 @@
-﻿  App.cpp
-  Automata.cpp
-I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(676,6): warning C4101: 'upperLimit': unreferenced local variable
-I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(934,14): warning C4101: 'check2': unreferenced local variable
-I:\Projects\RegEx-To-NFA\RegEx\Automata.cpp(934,6): warning C4101: 'check1': unreferenced local variable
-  main.cpp
-  MainFrame.cpp
+﻿  MainFrame.cpp
   Generating code
-  1099 of 1958 functions (56.1%) were compiled, the rest were copied from previous compilation.
-    719 functions were new in current compilation
-    107 functions had inline decision re-evaluated but remain unchanged
+  2 of 1970 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   RegEx.vcxproj -> I:\Projects\RegEx-To-NFA\x64\Release\RegEx.exe
   'pwsh.exe' is not recognized as an internal or external command,
