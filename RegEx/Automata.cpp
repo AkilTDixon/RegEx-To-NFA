@@ -74,7 +74,7 @@ Automata::Automata()
 
 Automata::Automata(string regEx)
 {
-	int depth = 0;
+
 	reservedCharacters.insert('(');
 	reservedCharacters.insert(')');
 	reservedCharacters.insert('*');
