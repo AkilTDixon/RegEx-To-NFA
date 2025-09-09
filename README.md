@@ -43,6 +43,13 @@ The application uses a custom syntax for regular expressions:
 - `a(a+b)*b` - Matches strings starting with 'a' and ending with 'b'
 - `((a+b)(a+b))*` - Matches even-length strings of a's and b's
 
+
+
+https://github.com/user-attachments/assets/e0983df1-2ffc-4272-9959-b137f42014bf
+
+
+
+
 ## Technical Implementation
 
 ### Architecture
