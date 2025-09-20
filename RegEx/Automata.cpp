@@ -67,7 +67,6 @@ Automata::Automata()
 	reservedCharacters.insert('*');
 	reservedCharacters.insert('+');
 	DFA = false;
-	//alphabet.insert('~');
 	
 
 }
@@ -81,79 +80,12 @@ Automata::Automata(string regEx)
 	reservedCharacters.insert('+');
 
 	DFA = false;
-	//alphabet.insert('~');
+
 	
 
 	createNFA(regEx);
 
 	
-}
-Automata::Automata(char fff, bool testingPurposes)
-{
-	reservedCharacters.insert('(');
-	reservedCharacters.insert(')');
-	reservedCharacters.insert('*');
-	reservedCharacters.insert('+');
-
-	State* initial = new State();
-	states.push_back(initial);
-	initial->initialState = true;
-	DFA = true;
-	//alphabet.insert('~');
-
-	State* n2 = new State();
-	states.push_back(n2);
-	State* n3 = new State();
-	states.push_back(n3);
-	n3->finalState = true;
-	State* n4 = new State();
-	states.push_back(n4);
-	State* n5 = new State();
-	states.push_back(n5);
-	n5->finalState = true;
-	State* n6 = new State();
-	states.push_back(n6);
-
-	alphabet.insert('a');
-	alphabet.insert('b');
-
-	Transition t1('a',n2);
-	initial->transitions.push_back(t1);
-	Transition t2('b', n4);
-	initial->transitions.push_back(t2);
-
-	Transition t3('a', n4);
-	n2->transitions.push_back(t3);
-	Transition t4('b', n3);
-	n2->transitions.push_back(t4);
-
-	Transition t5('a', n3);
-	n3->transitions.push_back(t5);
-	Transition t6('b', n3);
-	n3->transitions.push_back(t6);
-
-	Transition t7('a', n4);
-	n4->transitions.push_back(t7);
-	Transition t8('b', n5);
-	n4->transitions.push_back(t8);
-
-	Transition t9('a', n5);
-	n5->transitions.push_back(t9);
-	Transition t10('b', n5);
-	n5->transitions.push_back(t10);
-
-	Transition t11('a', n6);
-	n6->transitions.push_back(t11);
-	Transition t12('b', n5);
-	n6->transitions.push_back(t12);
-
-	//trap state dummy
-	//State* newState = new State();
-	//states.push_back(newState);
-	//Transition t13('a', newState);
-	//Transition t14('b', newState);
-	//newState->transitions.push_back(t13);
-	//newState->transitions.push_back(t14);
 }
 
 
