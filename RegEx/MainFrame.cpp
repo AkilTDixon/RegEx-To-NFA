@@ -7,41 +7,31 @@
 using namespace std;
 
 /*
-TODO
+a(a+(cb)*)
 
-NFA creation is rewritten, works in all current cases
-converting to DFA is DONE
-Minimize DFA is DONE
+a((a+b)c)*
 
+a(a+c(dc)*)
 
-Brackets within brackets
-a(a+(cb)*) --WORKS
+a(a+(cb)*)*
 
-a((a+b)c)* --WORKS
+a(a+c(dc)*b)
 
-a(a+c(dc)*) --WORKS
+((a+b)(a+b))*
 
-a(a+(cb)*)* --WORKS
+a(a+(cb)*c)d
 
-a(a+c(dc)*b) --WORKS
+(0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)
 
-((a+b)(a+b))* --WORKS
+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*)
 
-a(a+(cb)*c)d --WORKS
+((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*))
 
-(0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*) --WORKS
+((a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*+(ab+ba)(a+b)*(aa+bb)(a+b)*)*
 
-(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*) --WORKS
+((ab+ba)(a+b)*(aa+bb)(a+b)*)*
 
-
-((0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)+(1(0(0(1(0+1)(0+1)*)*0+1(0+1)(0+1)*))*)) --WORKS
-
-((a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*+(ab+ba)(a+b)*(aa+bb)(a+b)*)* --WORKS
-
-((ab+ba)(a+b)*(aa+bb)(a+b)*)* --WORKS
-
-(a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)* --WORKS
-
+(a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*
 */
 
 
@@ -62,7 +52,6 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 	if (!machine)
 		resetButton->Enable(false);
 
-	
 	testInputButton->Enable(false);
 	DFAbutton->Enable(false);
 	minimizeButton->Enable(false);
@@ -80,7 +69,6 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 
 	NFAbutton->Enable(false);
 	
-
 	if (staticBitmap) {
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
@@ -93,17 +81,13 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 	}
 	else
 		machine = new Automata(regEx);
-	
-	
 
 	machine->print(this);
 
 	testInputButton->Enable(true);
 	DFAbutton->Enable(true);
 	resetButton->Enable(true);
-	//textCtrl->Enable(false);
 	
-
 }
 
 void MainFrame::convertToDFA(wxCommandEvent& evt)
