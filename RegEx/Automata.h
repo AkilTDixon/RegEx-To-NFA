@@ -66,7 +66,6 @@ public:
 	
 	Automata();
 	Automata(string regEx);
-	Automata(char, bool testingPurposes);
 	~Automata();
 
 	vector<State*> states;
