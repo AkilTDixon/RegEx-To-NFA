@@ -820,7 +820,7 @@ void Automata::convertToDFA()
 
 	states.clear();
 	State::stateCounter = -1;
-	//initial state already exists, the extra state at the end will be used for the trap state
+
 	//states[numOfStates] = trap state
 	
 	for (int i = 0; i < numOfStates+1; i++)
@@ -845,9 +845,6 @@ void Automata::convertToDFA()
 
 		from = allTransitions[i].first.first;
 		to = allTransitions[i].first.second;
-		//skip assigning to trap state
-		//if (to == numOfStates)
-			//continue;
 		theChar = allTransitions[i].second;
 
 		
@@ -985,7 +982,6 @@ void Automata::minimizeDFA()
 	With the new states, which are represented as a collection of indices for the states vector,
 	those states can be merged together
 	*/
-	//GOOD UP TO HERE
 	vector<pair<char, int>>* savedTransitions = new vector<pair<char, int>>[theSets.size()];
 	vector<State*> tempHolder;
 
@@ -1029,7 +1025,6 @@ void Automata::minimizeDFA()
 
 		}
 	}
-	//GOOD UP TO HERE - THE TRANSITIONS TO SET ARE PROPER
 	//iterate through the savedTransitions and check the ID of the transitions for if they go to a merged state
 	set<int>* skipIndices = new set<int>[theSets.size()];
 	for (auto i = theSets.begin(); i != theSets.end(); i++)
@@ -1071,7 +1066,6 @@ void Automata::minimizeDFA()
 		}
 	}
 	delete[] skipIndices;
-	//GOOD UP TO HERE. IF THE MERGED SETS HAVE TRANSITIONS TO EACH OTHER, THEY ARE SET PROPERLY
 	/*
 	Now that the newly created merged states have their transitions sorted out,
 	the other states need to connect to the merged states, and the unnecessary states removed
@@ -1108,9 +1102,7 @@ void Automata::minimizeDFA()
 	for (int i = 0; i < tempHolder.size(); i++)
 		minimized.push_back(tempHolder[i]);
 	/*
-
 	With everything connected as needed, remove the states that were merged
-
 	*/
 	
 	for (auto i = theSets.begin(); i != theSets.end(); i++)
@@ -1232,32 +1224,3 @@ void characterTransitions(char theChar, State* current, set<State*>& groupedStat
 
 	
 }
-/*
-
-
-a(ab+c)
-
-q0 -a-> q1
-
-what if I made the inside of the brackets a sub Automata, who's initial state is connected to by the current state
-
-(
-put everything in the brackets into a new string
-)
-
-Do a new recursive call using the new string, with the current node which is q1
-ab+c
-
-q1 -a-> q2 -b-> |q3|
-q1 -c-> |q4|
-
-
-q0 -a-> q1 -a-> q2 -b-> |q3|
-		q1 -c-> |q4|
-
-
-The OR should work by calling the recursive function for each character/string that follows +
-
-
-
-*/
