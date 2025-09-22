@@ -91,19 +91,27 @@ Automata::Automata(string regEx)
 
 Automata::~Automata()
 {
-	
+	reset();
 }
 
 void Automata::reset()
 {
-	for (auto s : states)
+	for (auto s : states) {
 		delete s;
+		s = nullptr;
+	}
 
 	states.clear();
 	alphabet.clear();
 	DFA = false;
-	for (auto m : miniMachines)
+	for (auto m : miniMachines) {
+		for (auto n : m)
+		{
+			delete n;
+			n = nullptr;
+		}
 		m.clear();
+	}
 	miniMachines.clear();
 	
 
@@ -113,18 +121,28 @@ void Automata::reset()
 
 void Automata::reset(string regEx)
 {
-	for (auto s : states)
+	for (auto s : states) {
 		delete s;
+		s = nullptr;
+	}
 
 	states.clear();
+	alphabet.clear();
+	DFA = false;
+	for (auto m : miniMachines) {
+		for (auto n : m)
+		{
+			delete n;
+			n = nullptr;
+		}
+		m.clear();
+	}
+	miniMachines.clear();
+
 
 	State::stateCounter = -1;
 
-	State* initial = new State();
-	states.push_back(initial);
 
-
-	int depth = 0;
 	createNFA(regEx);
 
 }

@@ -34,7 +34,7 @@ a(a+(cb)*c)d
 (a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*
 */
 
-
+bool sanityCheck(string regex);
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 
@@ -47,7 +47,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 	testInputButton = new wxButton(windowPanel, wxID_ANY, "Test Input", wxPoint(350, 500), wxSize(100, 35));
 	textCtrl = new wxTextCtrl(windowPanel, wxID_ANY, "(a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*", wxPoint(300, 470), wxSize(200, -1));
 	resetButton = new wxButton(windowPanel, wxID_ANY, "Reset", wxPoint(350, 550), wxSize(100, 35));
-	inputTestCtrl = new wxStaticText(windowPanel, wxID_ANY, "", wxPoint(375, 450), wxSize(200, -1));
+	inputTestCtrl = new wxStaticText(windowPanel, wxID_ANY, "", wxPoint(375, 450), wxSize(200, 10));
 
 	if (!machine)
 		resetButton->Enable(false);
@@ -67,13 +67,21 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title){
 
 void MainFrame::generateNFA(wxCommandEvent& evt) {
 
+	string regEx = textCtrl->GetValue().ToStdString();
+	if (!sanityCheck(regEx))
+	{
+		inputTestCtrl->SetLabel("ERROR: invalid input text");
+		return;
+	}
+	inputTestCtrl->SetLabel("");
+
 	NFAbutton->Enable(false);
 	
 	if (staticBitmap) {
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
 	}
-	string regEx = textCtrl->GetValue().ToStdString();
+	
 	textCtrl->ChangeValue("");
 	if (machine) {
 		machine->reset();
@@ -157,4 +165,33 @@ void MainFrame::runInput(wxCommandEvent& evt)
 		
 		
 	}
+}
+
+bool sanityCheck(string regex)
+{
+	stack<char> bracketCount;
+
+	for (char c : regex)
+	{
+		switch (c)
+		{
+		case '(':
+			bracketCount.push(c);
+			break;
+		case ')':
+			if (bracketCount.empty())
+				return false;
+			bracketCount.pop();
+			break;
+		case '~':
+			return false;
+		}
+	}
+
+	if (bracketCount.empty())
+		return true;
+	else
+		return false;
+
+
 }
