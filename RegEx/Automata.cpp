@@ -304,7 +304,7 @@ bool traceLambda(State* current)
 	}
 	return ret;
 }
-void Automata::createNFA(string regex)
+bool Automata::createNFA(string regex)
 {
 
 	char currCharacter;
@@ -427,6 +427,10 @@ void Automata::createNFA(string regex)
 				the old "initial state" should now transition to the new one
 				
 				*/
+				if (miniMachines.empty() || (i > 0 && regex[i - 1] == '(' || regex[i - 1] == '*' || regex[i-1] == '+') || i == 0) {
+					reset();
+					return false;
+				}
 
 				State* intermediary = new State();
 				intermediary->loopEnd = true;
@@ -512,6 +516,11 @@ void Automata::createNFA(string regex)
 			}
 			else if (currCharacter == '+')
 			{
+				if (miniMachines.empty() || (i > 0 && regex[i - 1] == '(' || regex[i - 1] == '+') || i == 0) {
+					reset();
+					return false;
+				}
+				
 				//then the previously saved minimachine's initial state must branch into this next machine
 				branching = true;
 				bracketEnd = false;
@@ -521,7 +530,7 @@ void Automata::createNFA(string regex)
 				and epsilon transition to the next half, becoming the new branching initial state
 				*/
 
-				State* newS = new State();
+				
 				int theMachine = rootMachine;
 				
 				if (bracketCount.empty() && rootMachine < 0)
@@ -529,6 +538,11 @@ void Automata::createNFA(string regex)
 				else if (!bracketCount.empty())
 					theMachine = bracketCount.top();
 				
+				if (theMachine >= miniMachines.size()) {
+					reset();
+					return false;
+				}
+				State* newS = new State();
 				auto oldInitial = miniMachines[theMachine][0];
 				Transition e('~', miniMachines[theMachine][0]);
 				newS->transitions.push_back(e);
@@ -563,6 +577,11 @@ void Automata::createNFA(string regex)
 		}
 		else if (currCharacter == ')')
 		{
+			if (miniMachines.empty() || (i > 0 && regex[i-1] == '(')) {
+				reset();
+				return false;
+			}
+
 			bracketEnd = true;
 			rootMachine = bracketCount.top();
 			bracketCount.pop();
@@ -627,6 +646,8 @@ void Automata::createNFA(string regex)
 	for (int i = 0; i < states.size(); i++)
 		states[i]->id = i;
 
+
+	return true;
 }
 
 

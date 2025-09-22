@@ -73,7 +73,7 @@ public:
 
 	void print(MainFrame* window);
 	bool input(string s);
-	void createNFA(string regex);
+	bool createNFA(string regex);
 	void convertToDFA();
 	void minimizeDFA();
 	void reset();

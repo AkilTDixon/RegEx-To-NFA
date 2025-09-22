@@ -75,7 +75,7 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 	}
 	inputTestCtrl->SetLabel("");
 
-	NFAbutton->Enable(false);
+	
 	
 	if (staticBitmap) {
 		staticBitmap->Destroy();
@@ -85,13 +85,23 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 	textCtrl->ChangeValue("");
 	if (machine) {
 		machine->reset();
-		machine->createNFA(regEx);
+		if (!machine->createNFA(regEx))
+		{
+			inputTestCtrl->SetLabel("ERROR: invalid input text");
+			return;
+		}
 	}
-	else
-		machine = new Automata(regEx);
-
+	else {
+		machine = new Automata();
+		if (!machine->createNFA(regEx))
+		{
+			inputTestCtrl->SetLabel("ERROR: invalid input text");
+			return;
+		}	
+	}
 	machine->print(this);
 
+	NFAbutton->Enable(false);
 	testInputButton->Enable(true);
 	DFAbutton->Enable(true);
 	resetButton->Enable(true);
@@ -170,7 +180,9 @@ void MainFrame::runInput(wxCommandEvent& evt)
 bool sanityCheck(string regex)
 {
 	stack<char> bracketCount;
+	int bCharCount = 0;
 
+	//check if there's a closing bracket for every opening bracket
 	for (char c : regex)
 	{
 		switch (c)
@@ -192,6 +204,9 @@ bool sanityCheck(string regex)
 		return true;
 	else
 		return false;
+
+	
+	
 
 
 }
