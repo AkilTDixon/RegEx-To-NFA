@@ -336,201 +336,39 @@ bool Automata::createNFA(string regex)
 				next->finalState = true;
 				Transition t(currCharacter, next);
 				newS->transitions.push_back(t);
+
 				if (miniMachines.empty() && mini.empty())
 					newS->initialState = true;
 				else
 				{
 					if (branching)
-					{
-						Transition e('~', newS);
-						if (branchingBracket)
-						{
-							miniMachines[rootMachine][0]->transitions.push_back(e);
-							branchingBracket = false;
-						}
-						else if (!bracketCount.empty())
-						{
-							int index = bracketCount.top();
-							//the initial state of the root machine needs an epsilon transition to this machine
-							if (index >= miniMachines.size())
-								index = miniMachines.size() - 1;
-							miniMachines[index][0]->transitions.push_back(e);
-							
-						}
-						else
-						{
-							if (rootMachine != -1)
-							{
-								miniMachines[rootMachine][0]->transitions.push_back(e);
-								rootMachine = -1;			
-							}
-							else
-							{
-								//the previous minimachine's initial state needs to have an epsilon transition to this new machine
-								int index = miniMachines.size() - 1;
-								miniMachines[index][0]->transitions.push_back(e);
-							}
-						}
-						branching = false;
-					}
-					else
-					{
-						
-						if (bracketEnd)
-						{
-							//all the final states in the bracket need to connect with this state (concatenation)
-							int index = rootMachine;
-							for (int k = index; k < miniMachines.size(); k++)
-							{
-								for (int l = 0; l < miniMachines[k].size(); l++)
-								{
-									if (miniMachines[k][l]->finalState)
-									{
-										Transition e('~', newS);
-										miniMachines[k][l]->transitions.push_back(e);
-										miniMachines[k][l]->finalState = false;
-									}
-								}
-							}
-							//bracketCount.pop();
-							bracketEnd = false;
-							if (bracketCount.empty())
-								rootMachine = -1;
-						}
-						else
-						{
-							//this means all the final states of the last machine must epsilon transition to this initial state
-							int index = miniMachines.size() - 1;
-							for (int k = 0; k < miniMachines[index].size(); k++)
-							{
-								if (miniMachines[index][k]->finalState)
-								{
-									Transition e('~', newS);
-									miniMachines[index][k]->transitions.push_back(e);
-									miniMachines[index][k]->finalState = false;
-								}
-
-							}
-						}
-					}				
+						handleBranching(branching, branchingBracket, bracketCount, rootMachine, newS);
+					else			
+						handleNonBranching(bracketEnd, rootMachine, newS, bracketCount);				
 				}
+
 				mini.push_back(newS);
 				mini.push_back(next);
 					
 			}
 			else if (currCharacter == '*')
 			{
-				/*
-				When star closure is called, it should create a new intermediary node. Every machine closed under the star should have
-				its final states epsilon transition to the new node
-				That new node should then epsilon transition to a new "initial state" for the machine, and anything that transitions to
-				the old "initial state" should now transition to the new one
-				
-				*/
+				//invalid character placement check
 				if (miniMachines.empty() || (i > 0 && regex[i - 1] == '(' || regex[i - 1] == '*' || regex[i-1] == '+') || i == 0) {
 					reset();
 					return false;
 				}
-
-				State* intermediary = new State();
-				intermediary->loopEnd = true;
-				State* newInitial = new State();
-
-				int startAtMachine;
-				
-				if (rootMachine != -1)
-				{
-					startAtMachine = rootMachine;
-					
-					//the star closed machines should have their final states epsilon transition to the intermediary
-					for (int k = startAtMachine; k < miniMachines.size(); k++)
-					{
-						for (int l = 0; l < miniMachines[k].size(); l++)
-						{
-							if (miniMachines[k][l]->finalState)
-							{
-								Transition e('~', intermediary);
-								miniMachines[k][l]->transitions.push_back(e);
-								miniMachines[k][l]->finalState = false;
-							}
-						}
-					}
-					
-				}
-				else
-				{
-
-					//then the previously saved minimachine must be looped
-					//by putting an epsilon transition to its initial state from its final state
-					startAtMachine = miniMachines.size() - 1;
-					int innerIndex = miniMachines[startAtMachine].size() - 1;
-					Transition t('~', intermediary);
-
-					miniMachines[startAtMachine][innerIndex]->transitions.push_back(t);
-					if (miniMachines[startAtMachine][innerIndex]->finalState)
-						miniMachines[startAtMachine][innerIndex]->finalState = false;
-					
-				}
-
-				auto oldInitial = miniMachines[startAtMachine][0];
-				//the intermediary should epsilon transition to the newInitial
-				Transition e('~', newInitial);
-				intermediary->transitions.push_back(e);
-				e.nextState = oldInitial;
-				//the newInitial should epsilon transition to the current start node for this miniMachine
-				newInitial->transitions.push_back(e);
-				newInitial->finalState = true;
-				if (oldInitial->initialState)
-				{
-					oldInitial->initialState = false;
-					newInitial->initialState = true;
-				}
-				
-			
-				
-				/*
-				Anything that was transitioning to the old initial state needs to transition to the new one
-				*/
-				for (int m = 0; m < miniMachines.size(); m++)
-				{
-					for (int x = 0; x < miniMachines[m].size(); x++)
-					{
-						for (int y = 0; y < miniMachines[m][x]->transitions.size(); y++)
-						{
-							if (miniMachines[m][x]->loopEnd)
-								break;
-							if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
-								miniMachines[m][x]->transitions[y].nextState = newInitial;
-						}
-					}
-				}
-				int temp = oldInitial->id;
-
-				oldInitial->id = newInitial->id;
-				newInitial->id = temp;
-				miniMachines[startAtMachine].push_back(newInitial);
-				swap(miniMachines[startAtMachine][0], miniMachines[startAtMachine][miniMachines[startAtMachine].size() - 1]);
-				miniMachines[startAtMachine].push_back(intermediary);
-
-
+				handleStarClosure(rootMachine);
 			}
 			else if (currCharacter == '+')
 			{
+				//invalid character placement check
 				if (miniMachines.empty() || (i > 0 && regex[i - 1] == '(' || regex[i - 1] == '+') || i == 0) {
 					reset();
 					return false;
 				}
 				
-				//then the previously saved minimachine's initial state must branch into this next machine
-				branching = true;
-				bracketEnd = false;
-
-				/*
-				when doing an OR, create a new state. This state will epsilon transition to the rootMachine of the first half,
-				and epsilon transition to the next half, becoming the new branching initial state
-				*/
-
-				
+		
 				int theMachine = rootMachine;
 				
 				if (bracketCount.empty() && rootMachine < 0)
@@ -542,41 +380,15 @@ bool Automata::createNFA(string regex)
 					reset();
 					return false;
 				}
-				State* newS = new State();
-				auto oldInitial = miniMachines[theMachine][0];
-				Transition e('~', miniMachines[theMachine][0]);
-				newS->transitions.push_back(e);
-				if (miniMachines[theMachine][0]->initialState)
-				{
-					newS->initialState = true;
-					miniMachines[theMachine][0]->initialState = false;
-				}
+				branching = true;
+				bracketEnd = false;
 
-				//anything that was transitioning to the old initial/entry state now needs to transition to the
-				//new state
-				for (int m = 0; m < miniMachines.size(); m++)
-				{
-					for (int x = 0; x < miniMachines[m].size(); x++)
-					{
-						for (int y = 0; y < miniMachines[m][x]->transitions.size(); y++)
-						{
-							if (miniMachines[m][x]->loopEnd)
-								break;
-							if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
-								miniMachines[m][x]->transitions[y].nextState = newS;
-						}
-					}
-				}
-
-
-				miniMachines[theMachine].push_back(newS);
-				swap(miniMachines[theMachine][0], miniMachines[theMachine][miniMachines[theMachine].size() - 1]);
-
-				
+				handleOR(theMachine);	
 			}
 		}
 		else if (currCharacter == ')')
 		{
+			//invalid character placement check
 			if (miniMachines.empty() || (i > 0 && regex[i-1] == '(')) {
 				reset();
 				return false;
@@ -597,6 +409,7 @@ bool Automata::createNFA(string regex)
 				if (!branchingBracket)
 				{
 					branchingBracket = true;
+
 					//not in a bracket
 					if (!bracketCount.empty())
 						rootMachine = bracketCount.top();
@@ -649,8 +462,213 @@ bool Automata::createNFA(string regex)
 
 	return true;
 }
+void Automata::handleNonBranching(bool& bracketEnd, int& rootMachine, State* newS, stack<int>& bracketCount)
+{
+	if (bracketEnd)
+	{
+		//all the final states in the bracket need to connect with this state (concatenation)
+		int index = rootMachine;
+		for (int k = index; k < miniMachines.size(); k++)
+		{
+			for (int l = 0; l < miniMachines[k].size(); l++)
+			{
+				if (miniMachines[k][l]->finalState)
+				{
+					Transition e('~', newS);
+					miniMachines[k][l]->transitions.push_back(e);
+					miniMachines[k][l]->finalState = false;
+				}
+			}
+		}
+		//bracketCount.pop();
+		bracketEnd = false;
+		if (bracketCount.empty())
+			rootMachine = -1;
+	}
+	else
+	{
+		//this means all the final states of the last machine must epsilon transition to this initial state
+		int index = miniMachines.size() - 1;
+		for (int k = 0; k < miniMachines[index].size(); k++)
+		{
+			if (miniMachines[index][k]->finalState)
+			{
+				Transition e('~', newS);
+				miniMachines[index][k]->transitions.push_back(e);
+				miniMachines[index][k]->finalState = false;
+			}
+
+		}
+	}
+}
+void Automata::handleOR(int& theMachine)
+{
 
 
+	/*
+	when doing an OR, create a new state. This state will epsilon transition to the rootMachine of the first half,
+	and epsilon transition to the next half, becoming the new branching initial state
+	*/
+
+
+	State* newS = new State();
+	auto oldInitial = miniMachines[theMachine][0];
+	Transition e('~', miniMachines[theMachine][0]);
+	newS->transitions.push_back(e);
+	if (miniMachines[theMachine][0]->initialState)
+	{
+		newS->initialState = true;
+		miniMachines[theMachine][0]->initialState = false;
+	}
+
+	//anything that was transitioning to the old initial/entry state now needs to transition to the
+	//new state
+	for (int m = 0; m < miniMachines.size(); m++)
+	{
+		for (int x = 0; x < miniMachines[m].size(); x++)
+		{
+			for (int y = 0; y < miniMachines[m][x]->transitions.size(); y++)
+			{
+				if (miniMachines[m][x]->loopEnd)
+					break;
+				if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
+					miniMachines[m][x]->transitions[y].nextState = newS;
+			}
+		}
+	}
+
+
+	miniMachines[theMachine].push_back(newS);
+	swap(miniMachines[theMachine][0], miniMachines[theMachine][miniMachines[theMachine].size() - 1]);
+}
+
+
+void Automata::handleStarClosure(int& rootMachine)
+{
+	/*
+		When star closure is called, it should create a new intermediary node. Every machine closed under the star should have
+		its final states epsilon transition to the new node
+		That new node should then epsilon transition to a new "initial state" for the machine, and anything that transitions to
+		the old "initial state" should now transition to the new one
+
+	*/
+
+
+	State* intermediary = new State();
+	intermediary->loopEnd = true;
+	State* newInitial = new State();
+
+	int startAtMachine;
+
+	if (rootMachine != -1)
+	{
+		startAtMachine = rootMachine;
+
+		//the star closed machines should have their final states epsilon transition to the intermediary
+		for (int k = startAtMachine; k < miniMachines.size(); k++)
+		{
+			for (int l = 0; l < miniMachines[k].size(); l++)
+			{
+				if (miniMachines[k][l]->finalState)
+				{
+					Transition e('~', intermediary);
+					miniMachines[k][l]->transitions.push_back(e);
+					miniMachines[k][l]->finalState = false;
+				}
+			}
+		}
+
+	}
+	else
+	{
+
+		//then the previously saved minimachine must be looped
+		//by putting an epsilon transition to its initial state from its final state
+		startAtMachine = miniMachines.size() - 1;
+		int innerIndex = miniMachines[startAtMachine].size() - 1;
+		Transition t('~', intermediary);
+
+		miniMachines[startAtMachine][innerIndex]->transitions.push_back(t);
+		if (miniMachines[startAtMachine][innerIndex]->finalState)
+			miniMachines[startAtMachine][innerIndex]->finalState = false;
+
+	}
+
+	auto oldInitial = miniMachines[startAtMachine][0];
+	//the intermediary should epsilon transition to the newInitial
+	Transition e('~', newInitial);
+	intermediary->transitions.push_back(e);
+	e.nextState = oldInitial;
+	//the newInitial should epsilon transition to the current start node for this miniMachine
+	newInitial->transitions.push_back(e);
+	newInitial->finalState = true;
+	if (oldInitial->initialState)
+	{
+		oldInitial->initialState = false;
+		newInitial->initialState = true;
+	}
+
+
+
+	/*
+	Anything that was transitioning to the old initial state needs to transition to the new one
+	*/
+	for (int m = 0; m < miniMachines.size(); m++)
+	{
+		for (int x = 0; x < miniMachines[m].size(); x++)
+		{
+			for (int y = 0; y < miniMachines[m][x]->transitions.size(); y++)
+			{
+				if (miniMachines[m][x]->loopEnd)
+					break;
+				if (miniMachines[m][x]->transitions[y].nextState == oldInitial)
+					miniMachines[m][x]->transitions[y].nextState = newInitial;
+			}
+		}
+	}
+	int temp = oldInitial->id;
+
+	oldInitial->id = newInitial->id;
+	newInitial->id = temp;
+	miniMachines[startAtMachine].push_back(newInitial);
+	swap(miniMachines[startAtMachine][0], miniMachines[startAtMachine][miniMachines[startAtMachine].size() - 1]);
+	miniMachines[startAtMachine].push_back(intermediary);
+}
+
+void Automata::handleBranching(bool& branching, bool& branchingBracket, stack<int>& bracketCount, int& rootMachine, State* newS)
+{
+	Transition e('~', newS);
+
+	if (branchingBracket)
+	{
+		miniMachines[rootMachine][0]->transitions.push_back(e);
+		branchingBracket = false;
+	}
+	else if (!bracketCount.empty())
+	{
+		int index = bracketCount.top();
+		//the initial state of the root machine needs an epsilon transition to this machine
+		if (index >= miniMachines.size())
+			index = miniMachines.size() - 1;
+		miniMachines[index][0]->transitions.push_back(e);
+
+	}
+	else
+	{
+		if (rootMachine != -1)
+		{
+			miniMachines[rootMachine][0]->transitions.push_back(e);
+			rootMachine = -1;
+		}
+		else
+		{
+			//the previous minimachine's initial state needs to have an epsilon transition to this new machine
+			int index = miniMachines.size() - 1;
+			miniMachines[index][0]->transitions.push_back(e);
+		}
+	}
+	branching = false;
+}
 
 
 bool Automata::convertToDFA()

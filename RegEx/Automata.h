@@ -85,6 +85,10 @@ private:
 
 	void recursiveCheck(set<pair<int, int>>& statePairs, bool* grid);
 	bool testInput(string s, char currCharacter, int depth, int stringLength, State* currentState);
+	void handleBranching(bool& branching, bool& branchingBracket, stack<int>& bracketCount, int& rootMachine, State* newState);
+	void handleStarClosure(int& rootMachine);
+	void handleOR(int& theMachine);
+	void handleNonBranching(bool& bracketEnd, int& rootMachine, State* newS, stack<int>& bracketCount);
 	
 };
 
