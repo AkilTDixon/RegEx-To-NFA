@@ -62,29 +62,14 @@ State::State(bool fnState)
 
 Automata::Automata()
 {
-	reservedCharacters.insert('(');
-	reservedCharacters.insert(')');
-	reservedCharacters.insert('*');
-	reservedCharacters.insert('+');
 	DFA = false;
-	
 
 }
 
 Automata::Automata(string regEx)
 {
-
-	reservedCharacters.insert('(');
-	reservedCharacters.insert(')');
-	reservedCharacters.insert('*');
-	reservedCharacters.insert('+');
-
-	DFA = false;
-
-	
-
+	DFA = false;	
 	createNFA(regEx);
-
 	
 }
 
