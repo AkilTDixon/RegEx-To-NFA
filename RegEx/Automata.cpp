@@ -322,7 +322,7 @@ bool Automata::createNFA(string regex)
 	{
 
 		currCharacter = regex[i];
-		//making mini NFAs for each literal
+		//making mini NFAs for each non-reserved character
 		if (!reservedCharacters.contains(currCharacter))
 			if (!alphabet.contains(currCharacter))
 				alphabet.insert(currCharacter);
@@ -653,10 +653,10 @@ bool Automata::createNFA(string regex)
 
 
 
-void Automata::convertToDFA()
+bool Automata::convertToDFA()
 {
 	if (states.size() < 1)
-		return;
+		return false;
 	vector<set<State*>> p;
 	set<set<State*>> masterList;
 	set<State*> groupedState;
@@ -833,11 +833,15 @@ void Automata::convertToDFA()
 	State::stateCounter = states.size()-1;
 	DFA = true;
 	delete[] fnStates;
+
+	return true;
+
 }
-void Automata::minimizeDFA()
+
+bool Automata::minimizeDFA()
 {
 	if (!DFA)
-		return;
+		return false;
 
 	set<pair<int, int>> statePairs;
 
@@ -1113,7 +1117,7 @@ void Automata::minimizeDFA()
 
 	theSets.clear();
 	theSet.clear();
-
+	return true;
 }
 
 void Automata::recursiveCheck(set<pair<int, int>>& statePairs, bool* grid)

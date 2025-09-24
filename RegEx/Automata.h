@@ -74,8 +74,8 @@ public:
 	void print(MainFrame* window);
 	bool input(string s);
 	bool createNFA(string regex);
-	void convertToDFA();
-	void minimizeDFA();
+	bool convertToDFA();
+	bool minimizeDFA();
 	void reset();
 	void reset(string regEx);
 private:

@@ -110,31 +110,36 @@ void MainFrame::generateNFA(wxCommandEvent& evt) {
 
 void MainFrame::convertToDFA(wxCommandEvent& evt)
 {
-	DFAbutton->Enable(false);
+	
 
 	if (staticBitmap) {
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
 	}
 
-	machine->convertToDFA();
+	if (!machine->convertToDFA())
+		return;
+
 	machine->print(this);
 
+	DFAbutton->Enable(false);
 	minimizeButton->Enable(true);
 }
 
 void MainFrame::minimizeDFA(wxCommandEvent& evt)
 {
-	minimizeButton->Enable(false);
+	
 
 	if (staticBitmap) {
 		staticBitmap->Destroy();
 		staticBitmap = nullptr;
 	}
 
-	machine->minimizeDFA();
+	if (!machine->minimizeDFA())
+		return;
 	machine->print(this);
 
+	minimizeButton->Enable(false);
 	
 }
 void MainFrame::resetMachine(wxCommandEvent& evt)
