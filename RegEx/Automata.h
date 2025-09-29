@@ -69,6 +69,8 @@ public:
 	~Automata();
 
 	vector<State*> states;
+	vector<vector<State*>> miniMachines;
+	unordered_set<char> alphabet;
 	bool DFA;
 
 	void print(MainFrame* window);
@@ -78,10 +80,11 @@ public:
 	bool minimizeDFA();
 	void reset();
 	void reset(string regEx);
-private:
-	vector<vector<State*>> miniMachines;
-	unordered_set<char> alphabet;
+
+protected:
+	
 	unordered_set<char> reservedCharacters = { '(',')','*','+' };
+private:
 
 
 	void recursiveCheck(set<pair<int, int>>& statePairs, bool* grid);

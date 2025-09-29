@@ -1,4 +1,5 @@
 #define GVDLL
+#include "pch.h"
 #include "Automata.h"
 #include <iostream>
 #include <set>

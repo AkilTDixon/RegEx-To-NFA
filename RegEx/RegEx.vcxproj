@@ -105,7 +105,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <CompileAsManaged>
       </CompileAsManaged>
-      <AdditionalIncludeDirectories>C:\Program Files\Graphviz\include;$(WXWIN)\include\msvc;$(WXWIN)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>I:\Projects\RegEx-To-NFA\Unit Testing\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7\build\native\include;I:\Projects\RegEx-To-NFA\Unit Testing;C:\Program Files\Graphviz\include;$(WXWIN)\include\msvc;$(WXWIN)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,7 +125,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <CompileAsManaged>
       </CompileAsManaged>
-      <AdditionalIncludeDirectories>C:\Program Files\Graphviz\include;$(WXWIN)\include\msvc;$(WXWIN)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>I:\Projects\RegEx-To-NFA\Unit Testing\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7\build\native\include;I:\Projects\RegEx-To-NFA\Unit Testing;C:\Program Files\Graphviz\include;$(WXWIN)\include\msvc;$(WXWIN)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
