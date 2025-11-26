@@ -1,13 +1,13 @@
 # RegEx-to-NFA Converter
 
-A comprehensive C++ application that converts regular expressions into Non-deterministic Finite Automata (NFA), with the ability to convert NFAs to Deterministic Finite Automata (DFA) and minimize DFAs. The application features a graphical user interface built with wxWidgets and visualizes automata using Graphviz.
+A program that converts regular expressions into Non-deterministic Finite Automata (NFA), with the ability to convert NFAs to Deterministic Finite Automata (DFA) and minimize DFAs. The program features a graphical user interface built with wxWidgets and visualizes automata using Graphviz.
 
 ## Features
 
 ### Core Functionality
 - **Regular Expression to NFA Conversion**: Converts complex regular expressions into NFAs using Thompson's construction algorithm
 - **NFA to DFA Conversion**: Implements subset construction to convert NFAs to equivalent DFAs
-- **DFA Minimization**: Uses the table-filling algorithm to minimize DFAs to their most efficient form
+- **DFA Minimization**: Uses the table-filling algorithm to minimize DFAs
 - **String Acceptance Testing**: Test whether input strings are accepted by the generated automata
 - **Visual Automata Representation**: Generates visual diagrams of automata using Graphviz
 
@@ -17,10 +17,9 @@ A comprehensive C++ application that converts regular expressions into Non-deter
 - **Kleene Star**: Zero or more repetitions using `*` operator (e.g., `a*`)
 - **Grouping**: Parentheses for complex expressions (e.g., `(a+b)*`)
 - **Epsilon Transitions**: Represented by `~` symbol
-- **Nested Operations**: Complex nested expressions with multiple levels of parentheses
 
 ### User Interface
-- **Interactive GUI**: Built with wxWidgets for cross-platform compatibility
+- **Interactive GUI**: Built with wxWidgets
 - **Step-by-Step Conversion**: Generate NFA → Convert to DFA → Minimize DFA
 - **Real-time Visualization**: View automata diagrams as PNG images
 - **Input Testing**: Test string acceptance with immediate feedback
@@ -68,32 +67,9 @@ https://github.com/user-attachments/assets/e0983df1-2ffc-4272-9959-b137f42014bf
 ### Dependencies
 - **wxWidgets**: Cross-platform GUI framework
 - **Graphviz**: Graph visualization library
-- **Visual Studio 2022**: Development environment (v143 toolset)
-- **C++20**: Modern C++ standard for enhanced features
+- **Visual Studio 2022**: Development environment
+- **C++20**: Modern C++ standard
 
-## Building and Installation
-
-### Prerequisites
-- Visual Studio 2022 or later
-- wxWidgets library installed
-- Graphviz library installed
-- Windows 10/11 (tested on Windows 10.0.19045)
-
-### Build Instructions
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/AkilTDixon/RegEx-To-NFA.git
-   cd RegEx-To-NFA
-   ```
-
-2. Open `RegEx.sln` in Visual Studio 2022
-
-3. Configure the project:
-   - Set build configuration to x64 Debug or Release
-   - Ensure wxWidgets and Graphviz paths are correctly configured in project settings
-
-4. Build the solution:
-   - Press F7 or use Build → Build Solution
 
 ### Project Configuration
 The project includes the following include directories:
@@ -146,24 +122,8 @@ The application has been tested with numerous complex regular expressions includ
 - Complex patterns: `((a+b)*(aa+bb)(a+b)*(ab+ba)(a+b)*)*`
 - Binary patterns: `(0(0(0(0(0+1)(0+1))*+1(0(1(0+1)(0+1)*)*0)*)*)*)`
 
-## Future Enhancements
-
-The project is considered complete for core functionality, but potential improvements include:
-- Enhanced GUI quality and aspect ratio adjustments
-- Additional regular expression operators
-- Export functionality for automata diagrams
-- Performance optimizations for very large expressions
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-
-
-
-
-## Acknowledgments
-
-- Built using wxWidgets for cross-platform GUI development
-- Graphviz for automata visualization
-- Implements standard computer science algorithms for automata theory
